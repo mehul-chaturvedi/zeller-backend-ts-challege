@@ -1,4 +1,4 @@
-import { Item, PricingRules } from "./types/checkout"
+import { Item, PricingRules } from "../types/checkout"
 
 export class Checkout {
   private pricingRules;
@@ -6,7 +6,7 @@ export class Checkout {
   constructor(pricingRules: PricingRules[]){
     this.pricingRules = new Map()
     pricingRules.forEach(rule => {
-      this.pricingRules.set(rule.sku, { price: rule.price, condition: rule.condition, discountPrice: rule.discountPrice })
+      this.pricingRules.set(rule.sku, { price: rule.price, condition: rule.condition })
     })
     this.items = new Map()
   }
@@ -25,7 +25,7 @@ export class Checkout {
     for (let [item, {quantity, price}] of this.items.entries()) {
       const rule = this.pricingRules.get(item)
       if(rule) {
-        total += rule.condition(quantity, rule.price, rule.discountPrice) ?? (price * quantity)
+        total += rule.condition(quantity, rule.price) ?? (price * quantity)
       } else {
         total += price * quantity
       }

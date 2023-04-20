@@ -6,7 +6,6 @@ export interface Item {
 
 export interface PricingRules {
     sku: string;
-    discountPrice: number;
     condition: any;
     price: number
 }
